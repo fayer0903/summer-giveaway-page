@@ -93,13 +93,9 @@
 
   /* Diagonal 'N' pattern stand-in (replace with brand asset when available) */
 .npattern {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  opacity: 0.5;   /* tune here: 0.06 whisper → 0.16 bold */
-  background-image: url("assets/n-pattern.svg");
-  background-size: 400px 400px;
-  background-repeat: repeat;
-  -webkit-mask: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
-          mask: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: url("assets/n-pattern.svg") top left / 400px 400px repeat;
+  opacity: 0.10;   /* tune to taste on a phone */
 }
 
   /* ============================================================ HEADER */
@@ -132,8 +128,7 @@
     background:
       radial-gradient(90% 60% at 82% 8%, rgba(130,18,201,0.55) 0%, transparent 60%),
       radial-gradient(80% 60% at 6% 0%, rgba(0,255,207,0.16) 0%, transparent 55%),
-      radial-gradient(70% 50% at 50% 110%, rgba(255,59,157,0.18) 0%, transparent 60%),
-      var(--grape-800);
+      radial-gradient(70% 50% at 50% 110%, rgba(255,59,157,0.18) 0%, transparent 60%);
   }
   .hero .wrap { position: relative; display: grid; gap: clamp(30px, 5vw, 56px); align-items: center; z-index: 1; }
   @media (min-width: 900px) { .hero .wrap { grid-template-columns: 1.05fr 0.95fr; } }
@@ -245,7 +240,7 @@
 
   /* ============================================================ SECTION SHELL */
   section.band { padding-block: clamp(52px, 9vw, 96px); position: relative; }
-  .band-alt { background: var(--grape-900); }
+  .band-alt { background: rgba(18, 3, 31, 0.55); }
   .sec-head { text-align: center; max-width: 680px; margin: 0 auto clamp(34px, 5vw, 52px); position: relative; z-index: 1; }
   .sec-eyebrow {
     font-weight: 800; font-size: 13px;
@@ -413,7 +408,7 @@
   #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
 
   /* ============================================================ FOOTER */
-  .site-footer { background: var(--grape-900); color: var(--fg2); padding-block: clamp(44px, 7vw, 68px); border-top: 1px solid var(--line); }
+  .site-footer { position: relative; background: var(--grape-900); color: var(--fg2); padding-block: clamp(44px, 7vw, 68px); border-top: 1px solid var(--line); }
   .site-footer .wrap { display: grid; gap: 28px; }
   .footer-top { display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; }
   .footer-brand .brand-logo { width: 156px; }
@@ -434,7 +429,7 @@
 <body>
 
 <canvas id="confetti-canvas" aria-hidden="true"></canvas>
-
+<div class="npattern" aria-hidden="true"></div>
 <!-- ============================ HEADER ============================ -->
 <header class="site-header">
   <div class="wrap">
@@ -448,7 +443,6 @@
 
 <!-- ============================ HERO ============================ -->
 <section class="hero">
-  <div class="npattern" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hero-copy">
       <span class="hero-eyebrow">Free prize draw · No purchase needed</span>
@@ -588,7 +582,6 @@
 
 <!-- ======================= HOW TO ENTER (below the form — reassurance, not a gate) ======================= -->
 <section class="band band-alt" id="how">
-  <div class="npattern" aria-hidden="true" style="opacity:.4"></div>
   <div class="wrap">
     <div class="sec-head">
       <span class="sec-eyebrow">Easy mode</span>
