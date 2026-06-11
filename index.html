@@ -91,12 +91,15 @@
 
   .wrap { width: 100%; max-width: 1100px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 44px); }
 
-  /* Brand hexagon pattern — one fixed page-wide layer floating over the
-     section backgrounds (z2), under header (z50), footer (z3), confetti (z999). */
+  /* Diagonal 'N' pattern stand-in (replace with brand asset when available) */
   .npattern {
-    position: fixed; inset: 0; z-index: 2; pointer-events: none;
-    background: url("assets/n-pattern.svg") top left / 400px 400px repeat;
-    opacity: 0.07;   /* tune loudness here */
+    position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.5;
+    background-image: repeating-linear-gradient(
+      var(--pattern-angle),
+      rgba(255,255,255,0.035) 0 2px,
+      transparent 2px 26px);
+    -webkit-mask: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+            mask: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
   }
 
   /* ============================================================ HEADER */
@@ -410,7 +413,7 @@
   #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
 
   /* ============================================================ FOOTER */
-  .site-footer { position: relative; z-index: 3; background: var(--grape-900); color: var(--fg2); padding-block: clamp(44px, 7vw, 68px); border-top: 1px solid var(--line); }
+  .site-footer { background: var(--grape-900); color: var(--fg2); padding-block: clamp(44px, 7vw, 68px); border-top: 1px solid var(--line); }
   .site-footer .wrap { display: grid; gap: 28px; }
   .footer-top { display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; }
   .footer-brand .brand-logo { width: 156px; }
@@ -430,7 +433,6 @@
 </head>
 <body>
 
-<div class="npattern" aria-hidden="true"></div>
 <canvas id="confetti-canvas" aria-hidden="true"></canvas>
 
 <!-- ============================ HEADER ============================ -->
@@ -446,6 +448,7 @@
 
 <!-- ============================ HERO ============================ -->
 <section class="hero">
+  <div class="npattern" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hero-copy">
       <span class="hero-eyebrow">Free prize draw · No purchase needed</span>
@@ -585,6 +588,7 @@
 
 <!-- ======================= HOW TO ENTER (below the form — reassurance, not a gate) ======================= -->
 <section class="band band-alt" id="how">
+  <div class="npattern" aria-hidden="true" style="opacity:.4"></div>
   <div class="wrap">
     <div class="sec-head">
       <span class="sec-eyebrow">Easy mode</span>
@@ -644,8 +648,8 @@
 /* ======================================================================
    CONFIG — the only values you need to change at go-live
    ====================================================================== */
-const EDGE_FUNCTION_URL  = "https://kyqipcrxgpazvxxokxfo.supabase.co/functions/v1/summer-entry";   // e.g. https://<new-project-ref>.supabase.co/functions/v1/summer-entry
-const TURNSTILE_SITE_KEY = "0x4AAAAAADitvhLm_H-ssZGR";           // from the NEW Cloudflare Turnstile widget (new domain)
+const EDGE_FUNCTION_URL  = "https://kyqipcrxgpazvxxokxfo.supabase.co/functions/v1/summer-entry";
+const TURNSTILE_SITE_KEY = "0x4AAAAAADitvhLm_H-ssZGR";
 const CLOSING_DATE = new Date('2026-08-31T23:59:59');
 
 /* ======================================================================
@@ -867,13 +871,6 @@ const confetti = (function () {
     }
   });
 
-  /* DEV PREVIEW: open the page with #preview-ticket on the URL to see the
-     success state without a backend, e.g. index.html#preview-ticket
-     Harmless to leave in production — it stores nothing and enters no one. */
-  if (location.hash === '#preview-ticket') {
-    setTimeout(() => { showTicket('Alex', 'Trafford'); confetti.burst(); }, 600);
-  }
-
   function showTicket(name, venue) {
     form.style.display = 'none';
     document.getElementById('ticket-name').textContent = name || 'Player One';
@@ -885,13 +882,6 @@ const confetti = (function () {
     const t = document.getElementById('thanks');
     t.classList.add('show');
     t.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  /* DEV PREVIEW: open the page with ?preview=success to see the ticket +
-     confetti without a backend. Harmless in production (creates no data),
-     but remove this block at go-live if you'd rather it not exist at all. */
-  if (new URLSearchParams(location.search).get('preview') === 'success') {
-    setTimeout(() => { showTicket('Alex', 'Trafford'); confetti.burst(); }, 600);
   }
 })();
 </script>
