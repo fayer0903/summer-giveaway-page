@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Win a Nintendo Switch 2 — Namco Summer Giveaway</title>
+<meta name="description" content="Free summer prize draw at Namco. One lucky winner takes home a Nintendo Switch 2. Enter the draw at any of our 6 UK venues. Act your shoesize.">
+
+<!-- Brand fonts. FinalSix is the brand display face — if you have a licensed
+     webfont kit, swap the @font-face / family below. Archivo Black is the
+     stand-in (same heavy condensed energy); Red Hat Display is the body face. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Red+Hat+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Cloudflare Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<style>
+  /* ==========================================================================
+     DESIGN TOKENS — inlined from the Namco brand sheet (colors_and_type.css)
+     ========================================================================== */
+  :root {
+    /* Palette */
+    --grape-900: #12031F;
+    --grape-800: #1C0530;
+    --grape-700: #2A0B45;
+    --grape-600: #3A1259;
+    --mint:        #00FFCF;
+    --mint-dark:   #00D9B0;
+    --pink:        #FF3B9D;
+    --pink-dark:   #E61C84;
+    --purple:        #8212C9;
+    --purple-bright: #9B2EE0;
+    --white: #FFFFFF;
+    --fg1: #F4EFFB;
+    --fg2: #C9BCDD;
+    --fg3: #8E7DA8;
+    --danger: #FF5A6E;
+
+    --line:        rgba(255,255,255,0.10);
+    --line-strong: rgba(255,255,255,0.22);
+    --focus-ring:  rgba(0,255,207,0.25);
+
+    /* CTA (locked: pink) */
+    --cta-fill:   var(--pink);
+    --cta-fill-h: var(--pink-dark);
+    --cta-ink:    #FFFFFF;
+    --glow-cta:   0 0 0 1px rgba(255,59,157,.35), 0 10px 30px rgba(255,59,157,.30);
+    --glow-cta-h: 0 0 0 1px rgba(255,59,157,.5),  0 16px 40px rgba(255,59,157,.42);
+
+    /* Glows */
+    --glow-mint: 0 0 0 1px rgba(0,255,207,.35), 0 10px 30px rgba(0,255,207,.35);
+    --glow-pink: 0 0 0 1px rgba(255,59,157,.35), 0 10px 30px rgba(255,59,157,.30);
+    --glow-text-mint: 0 0 22px rgba(0,255,207,.45);
+    --glow-text-pink: 0 0 22px rgba(255,59,157,.45);
+
+    /* Type */
+    --font-display: 'Archivo Black', 'FinalSix', sans-serif;
+    --font-body: 'Red Hat Display', 'Red Hat Text', sans-serif;
+    --t-hero: clamp(2.6rem, 8.5vw, 4.6rem);
+    --t-h2:   clamp(1.9rem, 5.5vw, 2.8rem);
+    --t-lead: clamp(1.05rem, 2.4vw, 1.2rem);
+    --t-body: 1rem;
+
+    /* Shape & motion */
+    --r-md: 12px; --r-lg: 18px; --r-xl: 26px; --r-pill: 999px;
+    --shadow-lg: 0 24px 60px rgba(0,0,0,0.45);
+    --dur-fast: 140ms; --dur: 260ms;
+    --ease-out: cubic-bezier(.22,.9,.3,1);
+    --ease-bounce: cubic-bezier(.34,1.56,.64,1);
+    --pattern-angle: -32deg;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--fg1);
+    background: var(--grape-800);
+    overflow-x: hidden;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+  a { color: var(--mint); }
+  img { max-width: 100%; display: block; }
+
+  .wrap { width: 100%; max-width: 1100px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 44px); }
+
+  /* Diagonal 'N' pattern stand-in (replace with brand asset when available) */
+  .npattern {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.5;
+    background-image: repeating-linear-gradient(
+      var(--pattern-angle),
+      rgba(255,255,255,0.035) 0 2px,
+      transparent 2px 26px);
+    -webkit-mask: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+            mask: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+  }
+
+  /* ============================================================ HEADER */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--grape-900) 80%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding-block: 12px;
+  }
+  .brand-logo { width: 132px; height: auto; display: block; }
+  .badge-summer {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 800; font-size: 12px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--grape-900); background: var(--mint);
+    padding: 8px 15px; border-radius: var(--r-pill); white-space: nowrap;
+    box-shadow: var(--glow-mint);
+  }
+  .badge-summer i { width: 8px; height: 8px; border-radius: 50%; background: var(--grape-900); display: inline-block; animation: blink 1.4s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0.25; } }
+
+  /* ============================================================ HERO */
+  .hero { position: relative; isolation: isolate; padding-block: clamp(36px, 6vw, 72px) clamp(40px, 7vw, 88px); }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: -2;
+    background:
+      radial-gradient(90% 60% at 82% 8%, rgba(130,18,201,0.55) 0%, transparent 60%),
+      radial-gradient(80% 60% at 6% 0%, rgba(0,255,207,0.16) 0%, transparent 55%),
+      radial-gradient(70% 50% at 50% 110%, rgba(255,59,157,0.18) 0%, transparent 60%),
+      var(--grape-800);
+  }
+  .hero .wrap { position: relative; display: grid; gap: clamp(30px, 5vw, 56px); align-items: center; z-index: 1; }
+  @media (min-width: 900px) { .hero .wrap { grid-template-columns: 1.05fr 0.95fr; } }
+
+  .hero-copy { position: relative; z-index: 2; text-align: center; }
+  @media (min-width: 900px) { .hero-copy { text-align: left; } }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 800; font-size: 13px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mint); background: rgba(0,255,207,0.10);
+    border: 1px solid rgba(0,255,207,0.35);
+    padding: 9px 16px; border-radius: var(--r-pill); margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: var(--font-display); text-transform: uppercase; font-weight: 400;
+    font-size: var(--t-hero); line-height: 0.92; letter-spacing: -0.015em;
+    margin: 0 0 18px; color: var(--white);
+  }
+  .hero h1 .pink { color: var(--pink); text-shadow: var(--glow-text-pink); }
+  .hero h1 .mint { color: var(--mint); text-shadow: var(--glow-text-mint); }
+  .hero-sub {
+    font-size: var(--t-lead); font-weight: 700; color: var(--fg2);
+    margin: 0 auto 28px; max-width: 34ch; line-height: 1.45;
+  }
+  @media (min-width: 900px) { .hero-sub { margin-inline: 0; } }
+  .hero-sub strong { color: var(--white); }
+
+  .hero-cta-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; }
+  @media (min-width: 900px) { .hero-cta-row { justify-content: flex-start; } }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    appearance: none; border: 0; cursor: pointer;
+    font-family: var(--font-body); font-weight: 800; letter-spacing: 0.02em;
+    font-size: 1.1rem; color: var(--cta-ink); background: var(--cta-fill);
+    padding: 16px 30px; border-radius: var(--r-pill);
+    box-shadow: var(--glow-cta);
+    transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+    display: inline-flex; align-items: center; gap: 10px;
+    min-height: 56px; text-decoration: none; line-height: 1; white-space: nowrap;
+  }
+  .btn:hover { background: var(--cta-fill-h); transform: translateY(-2px); box-shadow: var(--glow-cta-h); }
+  .btn:active { transform: translateY(1px) scale(0.99); }
+  .btn:focus-visible { outline: 3px solid var(--cta-fill); outline-offset: 3px; }
+  .btn[disabled] { opacity: 0.75; cursor: wait; transform: none; }
+  .btn .arr { transition: transform var(--dur) var(--ease-bounce); }
+  .btn:hover .arr { transform: translateY(3px); }
+  .btn-ghost {
+    background: transparent; color: var(--white); box-shadow: none;
+    border: 2px solid var(--line-strong); padding: 14px 24px; min-height: 56px;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.06); border-color: var(--white); transform: translateY(-2px); box-shadow: none; }
+
+  /* ---------- prize visual ---------- */
+  .prize { position: relative; display: flex; justify-content: center; z-index: 1; isolation: isolate; }
+  .prize::before {
+    content: ""; position: absolute; top: 50%; left: 50%; z-index: 0;
+    width: 116%; aspect-ratio: 1; transform: translate(-50%, -50%);
+    background: conic-gradient(from 0deg, var(--mint) 0 7%, transparent 7% 12%, var(--mint) 12% 19%, transparent 19% 24%, var(--mint) 24% 31%, transparent 31% 36%, var(--mint) 36% 43%, transparent 43% 48%, var(--mint) 48% 55%, transparent 55% 60%, var(--mint) 60% 67%, transparent 67% 72%, var(--mint) 72% 79%, transparent 79% 84%, var(--mint) 84% 91%, transparent 91% 96%);
+    border-radius: 50%; opacity: 0.22; filter: blur(1px);
+    -webkit-mask: radial-gradient(circle, #000 36%, transparent 70%);
+            mask: radial-gradient(circle, #000 36%, transparent 70%);
+    animation: spin 60s linear infinite;
+  }
+  @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+  .prize-card {
+    position: relative; z-index: 1; background: var(--grape-700);
+    border-radius: var(--r-xl); padding: 22px;
+    box-shadow: var(--shadow-lg);
+    transform: rotate(-2deg);
+    border: 1px solid var(--line-strong);
+    max-width: 380px; width: 100%;
+  }
+  .prize-card .prize-img { width: 100%; height: 300px; object-fit: cover; object-position: center; background: #E60012; border-radius: var(--r-md); display: block; }
+  .prize-tag {
+    position: absolute; top: -16px; right: -10px;
+    background: var(--pink); color: #fff;
+    font-weight: 800; font-size: 13px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 10px 16px; border-radius: var(--r-pill); transform: rotate(5deg);
+    box-shadow: var(--glow-pink); white-space: nowrap; z-index: 2;
+  }
+  .prize-label {
+    text-align: center; margin-top: 16px; font-family: var(--font-display);
+    text-transform: uppercase; font-size: 1.25rem; color: var(--white); line-height: 1;
+  }
+  .prize-label span { color: var(--fg3); font-weight: 600; font-size: 0.85rem; display: block; font-family: var(--font-body); text-transform: none; letter-spacing: 0; margin-top: 8px; }
+
+  /* On phones the prize card is heavy — keep it but trim its height so the
+     CTA stays near the first screen. */
+  @media (max-width: 899px) {
+    .prize-card { max-width: 320px; padding: 16px; }
+    .prize-card .prize-img { height: 210px; }
+  }
+
+  /* ---------- countdown ---------- */
+  .countdown { display: flex; gap: 10px; justify-content: center; margin-top: 26px; flex-wrap: wrap; }
+  @media (min-width: 900px) { .countdown { justify-content: flex-start; } }
+  .cd-cell {
+    background: rgba(255,255,255,0.05); border: 1px solid var(--line); border-radius: var(--r-md);
+    min-width: 66px; padding: 11px 12px; text-align: center;
+  }
+  .cd-num { font-family: var(--font-display); font-size: 1.85rem; color: var(--mint); line-height: 1; text-shadow: var(--glow-text-mint); }
+  .cd-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg3); margin-top: 5px; font-weight: 800; }
+  .cd-intro { font-size: 13px; color: var(--fg3); font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin: 30px 0 10px; text-align: center; }
+  @media (min-width: 900px) { .cd-intro { text-align: left; } }
+
+  /* ============================================================ SECTION SHELL */
+  section.band { padding-block: clamp(52px, 9vw, 96px); position: relative; }
+  .band-alt { background: var(--grape-900); }
+  .sec-head { text-align: center; max-width: 680px; margin: 0 auto clamp(34px, 5vw, 52px); position: relative; z-index: 1; }
+  .sec-eyebrow {
+    font-weight: 800; font-size: 13px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); display: block; margin-bottom: 12px;
+  }
+  .sec-head h2 {
+    font-family: var(--font-display); text-transform: uppercase; font-size: var(--t-h2);
+    margin: 0 0 14px; color: var(--white); line-height: 0.98;
+  }
+  .sec-head p { font-size: var(--t-lead); color: var(--fg2); margin: 0; font-weight: 700; line-height: 1.45; }
+
+  /* ---------- steps ---------- */
+  .steps { display: grid; gap: 18px; grid-template-columns: 1fr; position: relative; z-index: 1; }
+  @media (min-width: 720px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 22px; } }
+  .step {
+    background: var(--grape-700); border: 1px solid var(--line); border-radius: var(--r-lg);
+    padding: 30px 26px; text-align: center;
+    position: relative; overflow: hidden;
+    transition: transform var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+  }
+  .step::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; transform: scaleX(0); transition: transform var(--dur) var(--ease-out); transform-origin: left; }
+  .step:hover { transform: translateY(-5px); border-color: var(--line-strong); }
+  .step:hover::after { transform: scaleX(1); }
+  .step:nth-child(1)::after { background: var(--mint); }
+  .step:nth-child(2)::after { background: var(--pink); }
+  .step:nth-child(3)::after { background: var(--purple-bright); }
+  .step-num {
+    width: 58px; height: 58px; border-radius: 16px; margin: 0 auto 20px;
+    display: grid; place-items: center;
+    font-family: var(--font-display); font-size: 1.7rem;
+    transform: rotate(-4deg);
+  }
+  .step:nth-child(1) .step-num { background: var(--mint); color: var(--grape-900); box-shadow: var(--glow-mint); }
+  .step:nth-child(2) .step-num { background: var(--pink); color: #fff; box-shadow: var(--glow-pink); }
+  .step:nth-child(3) .step-num { background: var(--purple); color: #fff; box-shadow: 0 10px 30px rgba(130,18,201,0.5); }
+  .step h3 { font-weight: 800; font-size: 1.3rem; margin: 0 0 9px; color: var(--white); }
+  .step p { font-size: var(--t-body); color: var(--fg2); margin: 0; line-height: 1.55; font-weight: 500; }
+
+  /* ============================================================ FORM */
+  .form-band { position: relative; }
+  .form-band::before { content: ""; position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(70% 50% at 50% 0%, rgba(130,18,201,0.35) 0%, transparent 60%); }
+  .form-card {
+    background: var(--grape-700); border-radius: var(--r-xl);
+    box-shadow: var(--shadow-lg); border: 1px solid var(--line-strong);
+    max-width: 660px; margin: 0 auto; padding: clamp(24px, 5vw, 46px);
+    position: relative; z-index: 1; overflow: hidden;
+  }
+  .form-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .row-2 { grid-template-columns: 1fr 1fr; gap: 18px; display: grid; } }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-weight: 800; font-size: 14px; color: var(--white); letter-spacing: 0.01em; }
+  .field label .opt { color: var(--fg3); font-weight: 600; font-size: 13px; }
+  .field .req { color: var(--mint); }
+  .field input, .field select {
+    font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--white);
+    background: var(--grape-600); border: 2px solid transparent; border-radius: var(--r-md);
+    padding: 14px 16px; min-height: 52px; width: 100%;
+    transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .field input::placeholder { color: var(--fg3); font-weight: 500; }
+  .field input:focus, .field select:focus {
+    outline: none; border-color: var(--mint);
+    box-shadow: 0 0 0 4px var(--focus-ring);
+  }
+  .field select { appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2300FFCF' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center; padding-right: 46px;
+  }
+  .field select option { background: var(--grape-700); color: var(--white); }
+  .field.invalid input, .field.invalid select { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(255,90,110,0.18); }
+  .err-msg { color: var(--danger); font-size: 13px; font-weight: 800; display: none; }
+  .field.invalid .err-msg { display: block; }
+
+  /* checkboxes */
+  .checks { display: grid; gap: 14px; margin-top: 4px; }
+  .check {
+    display: grid; grid-template-columns: 26px 1fr; gap: 13px; align-items: start;
+    padding: 15px 16px; border: 2px solid var(--line); border-radius: var(--r-md);
+    background: rgba(255,255,255,0.03); cursor: pointer; transition: border-color var(--dur-fast), background var(--dur-fast);
+  }
+  .check:hover { border-color: var(--line-strong); background: rgba(255,255,255,0.05); }
+  .check.invalid { border-color: var(--danger); background: rgba(255,90,110,0.08); }
+  .check input { appearance: none; margin: 0; width: 26px; height: 26px; min-height: 0;
+    border: 2px solid var(--line-strong); border-radius: 7px; background: transparent; cursor: pointer;
+    display: grid; place-items: center; transition: background var(--dur-fast), border-color var(--dur-fast); padding: 0; flex: none; }
+  .check input:checked { background: var(--mint); border-color: var(--mint); box-shadow: var(--glow-mint); }
+  .check input:checked::after { content: ""; width: 7px; height: 12px; border: solid var(--grape-900); border-width: 0 3px 3px 0; transform: rotate(45deg) translateY(-1px); }
+  .check input:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+  .check span { font-size: 15px; color: var(--fg2); line-height: 1.45; font-weight: 600; padding-top: 2px; }
+  .check span strong { color: var(--white); }
+  .check span .req { color: var(--mint); }
+  .check a { color: var(--mint); font-weight: 800; }
+
+  #turnstile-slot { display: flex; justify-content: center; }
+  #turnstile-slot:not(:empty) { margin-top: 18px; }
+
+  .submit-row { margin-top: 24px; }
+  .submit-row .btn { width: 100%; justify-content: center; font-size: 1.25rem; padding-block: 18px; }
+  .form-note { text-align: center; font-size: 13px; color: var(--fg3); margin-top: 16px; line-height: 1.5; font-weight: 500; }
+  .form-note a { color: var(--fg2); }
+
+  /* inline status (replaces alert()) */
+  .form-status {
+    display: none; margin-top: 16px; padding: 14px 16px; border-radius: var(--r-md);
+    font-weight: 700; font-size: 15px; line-height: 1.45; text-align: center;
+  }
+  .form-status.show { display: block; animation: pop 0.35s var(--ease-bounce) both; }
+  .form-status.error { background: rgba(255,90,110,0.12); border: 1px solid rgba(255,90,110,0.45); color: #FFB3BC; }
+  .form-status.info  { background: rgba(0,255,207,0.08);  border: 1px solid rgba(0,255,207,0.35);  color: var(--mint); }
+
+  .hp { position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+
+  /* ============================================================ SUCCESS — TICKET */
+  .thanks { display: none; text-align: center; padding: clamp(8px, 2vw, 20px) 4px; position: relative; }
+  .thanks.show { display: block; }
+  @keyframes pop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+
+  .ticket-slot {
+    position: relative; max-width: 360px; margin: 0 auto;
+  }
+  /* the machine slot the ticket "prints" from */
+  .ticket-slot::before {
+    content: ""; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+    width: 86%; height: 12px; border-radius: 8px;
+    background: var(--grape-900); border: 1px solid var(--line-strong);
+    box-shadow: inset 0 3px 8px rgba(0,0,0,0.7);
+    z-index: 3;
+  }
+  .ticket {
+    position: relative; z-index: 1; margin: 6px auto 0;
+    background: linear-gradient(160deg, #FFF8E7 0%, #FFEFD0 100%);
+    color: #2A0B45; border-radius: 14px;
+    padding: 26px 22px 22px; text-align: center;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.5);
+    transform: translateY(-110%); opacity: 0;
+    animation: print 1.1s var(--ease-out) 0.15s forwards;
+    overflow: hidden;
+  }
+  @keyframes print {
+    0% { transform: translateY(-110%); opacity: 0; }
+    25% { opacity: 1; }
+    78% { transform: translateY(2%); }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  /* perforated edges */
+  .ticket::before, .ticket::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 12px;
+    background-image: radial-gradient(circle at 6px 6px, var(--grape-700) 5px, transparent 5px);
+    background-size: 22px 12px; background-repeat: repeat-x;
+  }
+  .ticket::before { top: -1px; }
+  .ticket::after { bottom: -1px; transform: scaleY(-1); }
+  .ticket .t-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: #8212C9; margin-bottom: 8px; }
+  .ticket .t-title { font-family: var(--font-display); text-transform: uppercase; font-size: 1.7rem; line-height: 0.95; margin: 0 0 6px; }
+  .ticket .t-name { font-family: var(--font-display); text-transform: uppercase; font-size: 1.15rem; color: var(--pink-dark); margin-bottom: 14px; }
+  .ticket .t-rule { border: 0; border-top: 2px dashed rgba(42,11,69,0.25); margin: 14px 0; }
+  .ticket .t-meta { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4480; }
+  .ticket .t-num { font-variant-numeric: tabular-nums; }
+  .ticket .t-fine { font-size: 11.5px; font-weight: 600; color: #7A659A; margin-top: 12px; line-height: 1.45; }
+
+  .thanks .after-note { font-size: var(--t-lead); color: var(--fg2); margin: 26px auto 0; max-width: 42ch; font-weight: 600; line-height: 1.5; }
+  .thanks .after-note .mint { color: var(--mint); }
+
+  #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+
+  /* ============================================================ FOOTER */
+  .site-footer { background: var(--grape-900); color: var(--fg2); padding-block: clamp(44px, 7vw, 68px); border-top: 1px solid var(--line); }
+  .site-footer .wrap { display: grid; gap: 28px; }
+  .footer-top { display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; }
+  .footer-brand .brand-logo { width: 156px; }
+  .footer-close {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--line);
+    border-radius: var(--r-md); padding: 14px 22px;
+  }
+  .footer-close strong { color: var(--mint); display: block; font-family: var(--font-display); text-transform: uppercase; font-size: 1.2rem; margin-top: 4px; text-shadow: var(--glow-text-mint); }
+  .footer-close span { font-size: 12px; color: var(--fg3); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 800; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 8px 26px; align-items: center; }
+  .footer-links a { color: var(--fg2); text-decoration: none; font-weight: 800; font-size: 15px; padding: 6px 0; border-bottom: 2px solid transparent; }
+  .footer-links a:hover { border-bottom-color: var(--mint); color: var(--white); }
+  .footer-fine { font-size: 13px; color: var(--fg3); line-height: 1.65; border-top: 1px solid var(--line); padding-top: 22px; font-weight: 500; }
+  .footer-fine a { color: var(--fg2); }
+  .footer-tag { font-family: var(--font-display); text-transform: uppercase; color: var(--fg3); font-size: 12px; letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+<!-- ============================ HEADER ============================ -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <!-- TODO: swap for hosted CMS asset, e.g. https://authoring.namcofunscape.com/media/... -->
+      <img class="brand-logo" src="assets/namco-funscape-logo.png" alt="Namco Funscape">
+    </div>
+    <span class="badge-summer"><i></i> Summer Giveaway</span>
+  </div>
+</header>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="npattern" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="hero-eyebrow">Free prize draw · No purchase needed</span>
+      <h1>Win a <span class="pink">Nintendo<br>Switch 2</span> <span class="mint">this summer</span></h1>
+      <p class="hero-sub">One winner takes it all. <strong>Enter the free draw</strong> while you're with us — it takes a minute, and absolutely zero of your serious side.</p>
+      <div class="hero-cta-row">
+        <a href="#enter" class="btn" data-scroll>Enter now <span class="arr" aria-hidden="true">↓</span></a>
+        <a href="#how" class="btn btn-ghost" data-scroll>How it works</a>
+      </div>
+      <div id="cd-block">
+        <p class="cd-intro">Hurry — entries close soon</p>
+        <div class="countdown" id="countdown" role="timer" aria-label="Time remaining to enter"></div>
+      </div>
+    </div>
+
+    <div class="prize">
+      <div class="prize-card">
+        <span class="prize-tag">★ Top prize</span>
+        <!-- TODO: swap for hosted CMS asset -->
+        <img class="prize-img" src="assets/switch2-prize.jpg" width="1176" height="1088"
+             alt="Nintendo Switch 2 console with Joy-Con controllers and dock">
+        <div class="prize-label">Nintendo Switch&nbsp;2<span>The latest console — yours to win</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================== FORM (moved up — QR visitors land ready to enter) ========================== -->
+<section class="band form-band" id="enter">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Game on</span>
+      <h2>Enter the prize draw</h2>
+      <p>Fill in your details below for your chance to win.</p>
+    </div>
+
+    <div class="form-card">
+      <form id="entry-form" novalidate>
+
+        <!-- HONEYPOT (hidden from humans) -->
+        <div class="hp" aria-hidden="true">
+          <label>Company (leave blank)
+            <input type="text" name="company" tabindex="-1" autocomplete="off">
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <div class="row-2">
+            <div class="field" data-validate="required">
+              <label for="firstName">First name <span class="req">*</span></label>
+              <input type="text" id="firstName" name="firstName" autocomplete="given-name" placeholder="Alex" required>
+              <span class="err-msg">Please enter your first name.</span>
+            </div>
+            <div class="field" data-validate="required">
+              <label for="lastName">Last name <span class="req">*</span></label>
+              <input type="text" id="lastName" name="lastName" autocomplete="family-name" placeholder="Taylor" required>
+              <span class="err-msg">Please enter your last name.</span>
+            </div>
+          </div>
+
+          <div class="field" data-validate="email">
+            <label for="email">Email address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+            <span class="err-msg">Please enter a valid email address.</span>
+          </div>
+
+          <div class="field" data-validate="optional">
+            <label for="phone">Phone number <span class="opt">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="07123 456789">
+            <span class="err-msg">Please enter a valid phone number.</span>
+          </div>
+
+          <div class="field" data-validate="required">
+            <label for="location">Which venue are you visiting? <span class="req">*</span></label>
+            <select id="location" name="location" required>
+              <option value="" disabled selected>Choose a location…</option>
+              <option>Norwich</option>
+              <option>Braintree</option>
+              <option>Romford</option>
+              <option>Tamworth</option>
+              <option>Trafford</option>
+              <option>Metrocentre</option>
+            </select>
+            <span class="err-msg">Please choose the venue you're visiting.</span>
+          </div>
+
+          <div class="checks">
+            <label class="check" data-validate="checked">
+              <input type="checkbox" name="ageConfirm" required>
+              <span>I confirm that I am <strong>18 years of age or over</strong>. <span class="req">*</span></span>
+            </label>
+
+            <label class="check" data-validate="checked">
+              <input type="checkbox" name="acceptTerms" required>
+              <span>I have read and accept the <a href="https://www.namcofunscape.com/promotional-tcs" target="_blank" rel="noopener">Terms &amp; Conditions</a>. <span class="req">*</span></span>
+            </label>
+
+            <label class="check">
+              <input type="checkbox" name="marketingOptIn">
+              <span>Yes! I'd like to hear about offers, events and news from Namco by email. <span class="opt">(optional)</span></span>
+            </label>
+          </div>
+
+          <!-- Turnstile renders here on submit (dark theme) -->
+          <div id="turnstile-slot"></div>
+
+          <div class="submit-row">
+            <button type="submit" class="btn" id="submit-btn">Enter the draw <span class="arr" aria-hidden="true">→</span></button>
+          </div>
+
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+
+          <p class="form-note">By entering you agree to our <a href="https://www.namcofunscape.com/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>. One entry per person. Winner drawn at random after the closing date.</p>
+        </div>
+      </form>
+
+      <!-- SUCCESS: the ticket prints out of the slot -->
+      <div class="thanks" id="thanks" role="status" aria-live="polite">
+        <div class="ticket-slot">
+          <div class="ticket">
+            <div class="t-eyebrow">Namco Summer Giveaway</div>
+            <div class="t-title">You're in<br>the draw!</div>
+            <div class="t-name" id="ticket-name">Player One</div>
+            <hr class="t-rule">
+            <div class="t-meta">
+              <span class="t-num" id="ticket-num">ENTRY #00000</span>
+              <span id="ticket-venue">VENUE</span>
+            </div>
+            <p class="t-fine">Keep an eye on your inbox — if you're our lucky winner, we'll email you after the closing date.</p>
+          </div>
+        </div>
+        <p class="after-note">Nice one. That's your shot at the <span class="mint">Nintendo Switch&nbsp;2</span> locked in. Now — go act your shoesize.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= HOW TO ENTER (below the form — reassurance, not a gate) ======================= -->
+<section class="band band-alt" id="how">
+  <div class="npattern" aria-hidden="true" style="opacity:.4"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Easy mode</span>
+      <h2>How it works</h2>
+      <p>No spend, no catch, no boss battle. Fill in the form and you're in the draw.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Fill in the form</h3>
+        <p>Drop in your name and email, and tell us which Namco you're playing at.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Confirm you're 18+</h3>
+        <p>Tick to confirm you're old enough and accept the simple terms &amp; conditions.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>You're in the draw</h3>
+        <p>One winner is picked at random after the closing date. We'll be in touch if it's you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================== FOOTER ========================== -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="brand-logo" src="assets/namco-funscape-logo.png" alt="Namco Funscape">
+      </div>
+      <div class="footer-close">
+        <span>Entries close</span>
+        <strong id="footer-close-date">31 August 2026</strong>
+      </div>
+    </div>
+    <nav class="footer-links" aria-label="Legal">
+      <a href="https://www.namcofunscape.com/promotional-tcs" target="_blank" rel="noopener">Full Terms &amp; Conditions</a>
+      <a href="https://www.namcofunscape.com/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+      <a href="#how" data-scroll>How it works</a>
+    </nav>
+    <p class="footer-fine">
+      Prize draw open to UK residents aged 18 and over. No purchase necessary. One entry per person.
+      The prize is one (1) Nintendo Switch&nbsp;2 console. The winner will be selected at random after the closing date and notified by email.
+      Nintendo and Nintendo Switch are trademarks of Nintendo. This promotion is not sponsored by, endorsed by or associated with Nintendo.
+      Full rules apply — see the <a href="https://www.namcofunscape.com/promotional-tcs" target="_blank" rel="noopener">Terms &amp; Conditions</a>.
+      <br><br>
+      Namco venues are operated by Bandai Namco Amusement Europe Ltd.
+      © <span id="year">2026</span> Namco. All rights reserved. &nbsp; <span class="footer-tag">Act your shoesize.</span>
+    </p>
+  </div>
+</footer>
+
+<script>
+/* ======================================================================
+   CONFIG — the only values you need to change at go-live
+   ====================================================================== */
+const EDGE_FUNCTION_URL  = "https://kyqipcrxgpazvxxokxfo.supabase.co/functions/v1/summer-entry";
+const TURNSTILE_SITE_KEY = "0x4AAAAAADitvhLm_H-ssZGR";
+const CLOSING_DATE = new Date('2026-08-31T23:59:59');
+
+/* ======================================================================
+   BOILERPLATE: year + closing date + countdown + smooth scroll
+   ====================================================================== */
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('footer-close-date').textContent =
+  CLOSING_DATE.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+(function countdown() {
+  const root = document.getElementById('countdown');
+  const cells = [['days','Days'],['hours','Hrs'],['mins','Mins'],['secs','Secs']];
+  root.innerHTML = cells.map(([k,l]) =>
+    `<div class="cd-cell"><div class="cd-num" data-k="${k}">--</div><div class="cd-lbl">${l}</div></div>`).join('');
+  const num = k => root.querySelector(`[data-k="${k}"]`);
+  function tick() {
+    const diff = CLOSING_DATE - new Date();
+    if (diff <= 0) {
+      root.innerHTML = '<div class="cd-cell" style="min-width:auto;padding:12px 22px"><div class="cd-num" style="font-size:1.3rem">Entries closed</div></div>';
+      const btn = document.getElementById('submit-btn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Entries closed'; }
+      return;
+    }
+    num('days').textContent  = Math.floor(diff / 86400000);
+    num('hours').textContent = String(Math.floor(diff / 3600000) % 24).padStart(2,'0');
+    num('mins').textContent  = String(Math.floor(diff / 60000) % 60).padStart(2,'0');
+    num('secs').textContent  = String(Math.floor(diff / 1000) % 60).padStart(2,'0');
+    setTimeout(tick, 1000);
+  }
+  tick();
+})();
+
+document.querySelectorAll('[data-scroll]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+/* ======================================================================
+   CONFETTI — tiny dependency-free canvas burst (mint / pink / purple)
+   ====================================================================== */
+const confetti = (function () {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  const COLORS = ['#00FFCF', '#FF3B9D', '#9B2EE0', '#FFFFFF'];
+  let pieces = [], raf = null;
+
+  function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+  addEventListener('resize', resize); resize();
+
+  function burst(n = 140) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cx = canvas.width / 2, cy = canvas.height * 0.35;
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, v = 4 + Math.random() * 9;
+      pieces.push({
+        x: cx, y: cy,
+        vx: Math.cos(a) * v, vy: Math.sin(a) * v - 4,
+        w: 6 + Math.random() * 6, h: 8 + Math.random() * 8,
+        rot: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.3,
+        color: COLORS[(Math.random() * COLORS.length) | 0],
+        life: 140 + Math.random() * 60
+      });
+    }
+    if (!raf) loop();
+  }
+
+  function loop() {
+    raf = requestAnimationFrame(loop);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces = pieces.filter(p => p.life > 0 && p.y < canvas.height + 40);
+    if (!pieces.length) { cancelAnimationFrame(raf); raf = null; return; }
+    for (const p of pieces) {
+      p.vy += 0.18; p.vx *= 0.992;
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life--;
+      ctx.save();
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.globalAlpha = Math.min(1, p.life / 50);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    }
+  }
+  return { burst };
+})();
+
+/* ======================================================================
+   FORM: validation, Turnstile-on-submit, personality states,
+   inline status messages, ticket success
+   ====================================================================== */
+(function () {
+  const form = document.getElementById('entry-form');
+  const statusEl = document.getElementById('form-status');
+  const tsSlot = document.getElementById('turnstile-slot');
+  const btn = document.getElementById('submit-btn');
+  const BTN_DEFAULT = 'Enter the draw <span class="arr" aria-hidden="true">→</span>';
+
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRe = /^[+\d][\d\s().-]{6,}$/;
+
+  function setStatus(msg, kind) {
+    statusEl.textContent = msg || '';
+    statusEl.className = 'form-status' + (msg ? ` show ${kind || 'error'}` : '');
+  }
+  function setBtn(label, disabled) {
+    btn.disabled = !!disabled;
+    btn.innerHTML = label;
+  }
+
+  function validateField(wrap) {
+    const type = wrap.dataset.validate;
+    let ok = true;
+    if (type === 'required') ok = !!wrap.querySelector('input, select').value.trim();
+    else if (type === 'email') ok = emailRe.test(wrap.querySelector('input').value.trim());
+    else if (type === 'optional') { const v = wrap.querySelector('input').value.trim(); ok = v === '' || phoneRe.test(v); }
+    else if (type === 'checked') ok = wrap.querySelector('input').checked;
+    wrap.classList.toggle('invalid', !ok);
+    return ok;
+  }
+
+  form.querySelectorAll('[data-validate]').forEach(wrap => {
+    wrap.querySelectorAll('input, select').forEach(el => {
+      const re = () => { if (wrap.classList.contains('invalid')) validateField(wrap); };
+      el.addEventListener('input', re); el.addEventListener('change', re);
+    });
+  });
+
+  /* Turnstile rendered fresh on each submit — token can't go stale */
+  function getTurnstileToken() {
+    return new Promise((resolve, reject) => {
+      tsSlot.innerHTML = '';
+      try {
+        turnstile.render(tsSlot, {
+          sitekey: TURNSTILE_SITE_KEY,
+          theme: 'dark',
+          callback: resolve,
+          'error-callback': () => reject(new Error('turnstile-error')),
+          'expired-callback': () => {}
+        });
+      } catch (e) { reject(e); }
+    });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setStatus('');
+
+    // Honeypot: silently pretend success for bots
+    if (form.querySelector('[name="company"]').value.trim() !== '') {
+      showTicket(form.firstName.value.trim() || 'Player One', form.location.value || '—');
+      return;
+    }
+
+    const wraps = [...form.querySelectorAll('[data-validate]')];
+    let firstBad = null, allOk = true;
+    wraps.forEach(w => { const ok = validateField(w); if (!ok && !firstBad) firstBad = w; if (!ok) allOk = false; });
+    if (!allOk) {
+      firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      (firstBad.querySelector('input, select') || {}).focus?.();
+      return;
+    }
+
+    const payload = {
+      first_name: form.firstName.value.trim(),
+      last_name:  form.lastName.value.trim(),
+      email:      form.email.value.trim().toLowerCase(),
+      phone:      form.phone.value.trim() || null,
+      location:   form.location.value,
+      marketing_opt_in: form.marketingOptIn.checked,
+      age_confirmed: form.ageConfirm.checked,
+      accepted_terms: form.acceptTerms.checked
+    };
+
+    setBtn('Verifying you\u2019re human\u2026', true);
+
+    let token;
+    try {
+      token = await getTurnstileToken();
+    } catch {
+      setBtn(BTN_DEFAULT, false);
+      setStatus('Security check couldn\u2019t load. Check your connection and try again.', 'error');
+      return;
+    }
+
+    setBtn('Rolling the dice\u2026', true);
+
+    try {
+      const res = await fetch(EDGE_FUNCTION_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...payload, turnstileToken: token })
+      });
+      let data = {};
+      try { data = await res.json(); } catch {}
+
+      if (res.status === 201) {
+        showTicket(payload.first_name, payload.location);
+        confetti.burst();
+        return;
+      }
+      if (res.status === 409) {
+        setStatus('Easy there, champ \u2014 you\u2019re already in the draw. One entry per player!', 'info');
+      } else if (res.status === 400 && data.message === 'expired') {
+        setStatus('Your security check expired. Hit the button again to refresh it.', 'error');
+      } else if (res.status === 400 && data.message === 'bot') {
+        setStatus('Security check failed. Refresh the page and try again.', 'error');
+      } else if (res.status === 400) {
+        setStatus(data.message || 'Something doesn\u2019t look right with your details \u2014 give them a once-over.', 'error');
+      } else {
+        setStatus('Something went wrong on our side. Please try again in a moment.', 'error');
+      }
+    } catch (err) {
+      console.error('Entry submit failed:', err);
+      setStatus('Couldn\u2019t reach the server \u2014 check your connection and try again.', 'error');
+    } finally {
+      setBtn(BTN_DEFAULT, false);
+      tsSlot.innerHTML = '';
+    }
+  });
+
+  function showTicket(name, venue) {
+    form.style.display = 'none';
+    document.getElementById('ticket-name').textContent = name || 'Player One';
+    document.getElementById('ticket-venue').textContent = (venue || '').toUpperCase();
+    // Cosmetic entry number only — not the draw ID. Swap for a server-issued
+    // number later by returning it from the edge function and using it here.
+    document.getElementById('ticket-num').textContent =
+      'ENTRY #' + String(Math.floor(10000 + Math.random() * 89999));
+    const t = document.getElementById('thanks');
+    t.classList.add('show');
+    t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+})();
+</script>
+</body>
+</html>
