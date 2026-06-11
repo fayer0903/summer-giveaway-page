@@ -90,32 +90,17 @@
   img { max-width: 100%; display: block; }
 
   .wrap { width: 100%; max-width: 1100px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 44px); }
-/* ADD THIS RIGHT BELOW */
-.hero .wrap,
-.band-alt .wrap,
-.sec-head,
-.steps {
-  position: relative;
-  z-index: 1;
-}
+
   /* Diagonal 'N' pattern stand-in (replace with brand asset when available) */
-.npattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  pointer-events: none;
-  z-index: 0;
-
-  opacity: 0.25;
-
-  background-image: url("assets/n-pattern.svg");
-  background-repeat: repeat;
-  background-position: center;
-  background-size: 300px 300px;
-}
+  .npattern {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.5;
+    background-image: repeating-linear-gradient(
+      var(--pattern-angle),
+      rgba(255,255,255,0.035) 0 2px,
+      transparent 2px 26px);
+    -webkit-mask: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+            mask: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+  }
 
   /* ============================================================ HEADER */
   .site-header {
@@ -141,7 +126,7 @@
   @keyframes blink { 50% { opacity: 0.25; } }
 
   /* ============================================================ HERO */
-  .hero { position: relative; overlow: hidden; isolation: isolate; padding-block: clamp(36px, 6vw, 72px) clamp(40px, 7vw, 88px); }
+  .hero { position: relative; isolation: isolate; padding-block: clamp(36px, 6vw, 72px) clamp(40px, 7vw, 88px); }
   .hero::before {
     content: ""; position: absolute; inset: 0; z-index: -2;
     background:
@@ -211,6 +196,8 @@
     width: 116%; aspect-ratio: 1; transform: translate(-50%, -50%);
     background: conic-gradient(from 0deg, var(--mint) 0 7%, transparent 7% 12%, var(--mint) 12% 19%, transparent 19% 24%, var(--mint) 24% 31%, transparent 31% 36%, var(--mint) 36% 43%, transparent 43% 48%, var(--mint) 48% 55%, transparent 55% 60%, var(--mint) 60% 67%, transparent 67% 72%, var(--mint) 72% 79%, transparent 79% 84%, var(--mint) 84% 91%, transparent 91% 96%);
     border-radius: 50%; opacity: 0.22; filter: blur(1px);
+    -webkit-mask: radial-gradient(circle, #000 36%, transparent 70%);
+            mask: radial-gradient(circle, #000 36%, transparent 70%);
     animation: spin 60s linear infinite;
   }
   @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
@@ -258,7 +245,7 @@
 
   /* ============================================================ SECTION SHELL */
   section.band { padding-block: clamp(52px, 9vw, 96px); position: relative; }
-  .band-alt { position: relative; overflow: hidden; background: var(--grape-900); }
+  .band-alt { background: var(--grape-900); }
   .sec-head { text-align: center; max-width: 680px; margin: 0 auto clamp(34px, 5vw, 52px); position: relative; z-index: 1; }
   .sec-eyebrow {
     font-weight: 800; font-size: 13px;
